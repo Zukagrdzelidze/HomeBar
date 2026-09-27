@@ -1,0 +1,55 @@
+package mini.homebar.bottle;
+
+/** The kind of alcohol a Bottle is. Cocktails ask for a Spirit Kind, never a specific Bottle. */
+public enum SpiritKind {
+    VODKA,
+    VANILLA_VODKA,
+    GIN,
+    WHITE_RUM,
+    DARK_RUM,
+    OVERPROOF_RUM,
+    TEQUILA,
+    REPOSADO_TEQUILA,
+    MEZCAL,
+    WHISKEY,
+    BOURBON,
+    RYE_WHISKEY,
+    IRISH_WHISKEY,
+    BLENDED_SCOTCH,
+    ISLAY_SCOTCH,
+    BRANDY,
+    CALVADOS,
+    PISCO,
+
+    SWEET_VERMOUTH,
+    DRY_VERMOUTH,
+    CAMPARI,
+    APEROL,
+    LILLET_BLANC,
+
+    TRIPLE_SEC,
+    COFFEE_LIQUEUR,
+    AMARETTO,
+    MARASCHINO_LIQUEUR,
+    RASPBERRY_LIQUEUR,
+    PASSION_FRUIT_LIQUEUR,
+    CREME_DE_CASSIS,
+    CREME_DE_MURE,
+    CREME_DE_VIOLETTE,
+    CREME_DE_CACAO,
+    CREME_DE_MENTHE,
+    GREEN_CHARTREUSE,
+    YELLOW_CHARTREUSE,
+    ELDERFLOWER_LIQUEUR,
+    DRAMBUIE,
+    BENEDICTINE,
+    AMARO_NONINO,
+    ABSINTHE,
+    FALERNUM,
+
+    ANGOSTURA_BITTERS,
+    PEYCHAUDS_BITTERS,
+
+    CHAMPAGNE,
+    PROSECCO
+}

@@ -1,0 +1,14 @@
+services:
+  postgres:
+    image: postgres:17
+    environment:
+      POSTGRES_DB: homebar
+      POSTGRES_USER: homebar
+      POSTGRES_PASSWORD: homebar
+    ports:
+      - "5432:5432"
+    volumes:
+      - homebar-data:/var/lib/postgresql/data
+
+volumes:
+  homebar-data:

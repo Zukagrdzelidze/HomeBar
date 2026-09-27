@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: homebar
+  datasource:
+    url: jdbc:postgresql://localhost:5432/homebar
+    username: homebar
+    password: homebar
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+    properties:
+      hibernate:
+        default_batch_fetch_size: 50
+  servlet:
+    multipart:
+      # Generous transport limits so an oversized photo is read fully and rejected with a clear 400;
+      # the real 5 MB limit is ImageFormat.MAX_BYTES.
+      max-file-size: 20MB
+      max-request-size: 20MB
+server:
+  error:
+    include-message: always
