@@ -501,7 +501,7 @@ from (values
     (120, 0, '45 მლ', 'AMARETTO', NULL),
     (120, 1, '30 მლ', NULL, 'ლიმონის წვენი'),
     (120, 2, '10 მლ', NULL, 'შაქრის სიროფი'),
-    (120, 3, '15', NULL, 'კვერცხის ცილა'),
+    (120, 3, '1', NULL, 'კვერცხის ცილა'),
     (120, 4, '2 წვეთი', 'ANGOSTURA_BITTERS', NULL)
 ) as v (cocktail_id, position, amount, spirit_kind, mixer)
 left join mixers m on m.name = v.mixer;
