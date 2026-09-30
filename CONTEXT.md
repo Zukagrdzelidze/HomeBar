@@ -1,14 +1,18 @@
 # HomeBar
 
-A catalogue of what a home bar has on its shelves and which cocktails it can make from it. Right now only the admin side is in scope; a public guest menu comes later.
+A catalogue of what a home bar has on its shelves and which cocktails it can make from it. The Admin manages stock; Guests browse the Cocktails the bar can make right now.
 
 ## Language
 
 ### People
 
 **Admin**:
-A person who can log in to add and Revoke Bottles, mark Mixers in or out of stock, and view Cocktails. Only one Admin can self-register, and registration closes once that account exists.
+A person who can log in to add and Revoke Bottles, mark Mixers in or out of stock, view Cocktails and set their photos. Only one Admin can self-register, and registration closes once that account exists.
 _Avoid_: User, owner, bartender
+
+**Guest**:
+Anyone browsing the bar's menu without logging in. A Guest only ever sees Makeable Cocktails and never sees stock.
+_Avoid_: Customer, user, visitor
 
 ### Stock
 
@@ -43,7 +47,7 @@ _Avoid_: Note, review, comment
 ### Cocktails
 
 **Cocktail**:
-A fixed recipe: a name, Cocktail Ingredients, a Cup Sequence, a description, and whether it is served over ice. The Admin views Cocktails but does not edit them.
+A fixed recipe: a name, Cocktail Ingredients, a Cup Sequence, a description, and whether it is served over ice, plus an optional photo. The Admin can change only the photo; the recipe itself is fixed.
 _Avoid_: Drink, recipe (on its own)
 
 **Cocktail Ingredient**:
@@ -61,3 +65,11 @@ _Avoid_: Tags, type
 **Makeable**:
 A Cocktail is Makeable when every Spirit Kind it needs has at least one in-stock (or running-low) Bottle that is not a Sipping Bottle, and every Mixer it needs is in stock.
 _Avoid_: Available, possible
+
+**Missing Ingredient**:
+A Spirit Kind or Mixer a Cocktail needs that current stock does not cover. Counted as distinct things to buy, not recipe lines: a recipe asking for gin twice with no gin has one Missing Ingredient.
+_Avoid_: Needed item, shortage
+
+**Shopping List**:
+The Missing Ingredients that are each the only thing keeping one or more Cocktails from being Makeable, ranked by how many Cocktails buying that one thing would unlock.
+_Avoid_: Buy list, wishlist

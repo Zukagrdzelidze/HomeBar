@@ -1,14 +1,14 @@
-package mini.homebar.bottle;
+package mini.homebar.photo;
 
 import java.util.Optional;
 
-/** The photo formats a Bottle accepts, recognised by their leading bytes rather than the uploader's claimed type. */
-enum ImageFormat {
+/** The photo formats Bottles and Cocktails accept, recognised by their leading bytes rather than the uploader's claimed type. */
+public enum ImageFormat {
     JPEG("image/jpeg"),
     PNG("image/png"),
     WEBP("image/webp");
 
-    static final int MAX_BYTES = 5 * 1024 * 1024;
+    public static final int MAX_BYTES = 5 * 1024 * 1024;
 
     final String contentType;
 

@@ -56,4 +56,9 @@ public class Cocktail {
                 .distinct()
                 .toList();
     }
+
+    public boolean uses(long mixerId) {
+        return ingredients.stream()
+                .anyMatch(ingredient -> ingredient.getMixer() != null && ingredient.getMixer().getId() == mixerId);
+    }
 }

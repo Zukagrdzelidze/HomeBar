@@ -8,6 +8,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import mini.homebar.photo.Photo;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -108,13 +109,8 @@ class BottleController {
     @Transactional
     BottleView uploadImage(@PathVariable long id, @RequestPart("file") MultipartFile file) throws IOException {
         var bottle = find(id);
-        if (file.getSize() > ImageFormat.MAX_BYTES) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Photo must be 5 MB or smaller");
-        }
-        byte[] bytes = file.getBytes();
-        var format = ImageFormat.detect(bytes).orElseThrow(() ->
-                new ResponseStatusException(HttpStatus.BAD_REQUEST, "Photo must be a JPEG, PNG or WebP"));
-        images.save(new BottleImage(bottle.getId(), format.contentType, bytes));
+        var photo = Photo.from(file);
+        images.save(new BottleImage(bottle.getId(), photo.contentType(), photo.data()));
         return BottleView.of(bottle, true);
     }
 

@@ -30,13 +30,13 @@ public final class BarStock {
                 mixers.stream().filter(Mixer::isInStock).map(Mixer::getId).collect(Collectors.toSet()));
     }
 
-    /** The Cocktail Ingredients the bar can't currently cover; empty means the Cocktail is Makeable. */
-    public List<CocktailIngredient> missingFor(Cocktail cocktail) {
-        return cocktail.getIngredients().stream().filter(ingredient -> !covers(ingredient)).toList();
-    }
-
-    public boolean canMake(Cocktail cocktail) {
-        return missingFor(cocktail).isEmpty();
+    /** The Missing Ingredients, each distinct thing to buy once, in recipe order; empty means the Cocktail is Makeable. */
+    public List<MissingIngredient> missingFor(Cocktail cocktail) {
+        return cocktail.getIngredients().stream()
+                .filter(ingredient -> !covers(ingredient))
+                .map(MissingIngredient::of)
+                .distinct()
+                .toList();
     }
 
     private boolean covers(CocktailIngredient ingredient) {

@@ -29,7 +29,7 @@ export default function LoginPage() {
         registration.data?.open && (
           <Text size="sm" ta="center">
             First time here?{' '}
-            <Anchor component={Link} to="/register">
+            <Anchor component={Link} to="/admin/register">
               Register
             </Anchor>
           </Text>

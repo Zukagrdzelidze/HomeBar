@@ -4,9 +4,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
 import { api, ApiError, type Bottle, type BottleForm, type BottleStatus } from '../api'
 import { label, SPIRIT_KINDS, STATUS_LABEL } from '../labels'
-
-const MAX_PHOTO_BYTES = 5 * 1024 * 1024
-const PHOTO_TYPES = ['image/jpeg', 'image/png', 'image/webp']
+import { PHOTO_TYPES, photoError as checkPhoto } from '../photo'
 
 type Props = {
   bottle: Bottle | null
@@ -64,12 +62,7 @@ function BottleFormFields({ bottle, onDone }: { bottle: Bottle | null; onDone: (
     },
   })
 
-  const photoError =
-    photo && photo.size > MAX_PHOTO_BYTES
-      ? 'Photo must be 5 MB or smaller'
-      : photo && !PHOTO_TYPES.includes(photo.type)
-        ? 'Photo must be a JPEG, PNG or WebP'
-        : null
+  const photoError = checkPhoto(photo)
 
   return (
     <form

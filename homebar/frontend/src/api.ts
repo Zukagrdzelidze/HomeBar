@@ -36,7 +36,34 @@ export type Cocktail = {
   ingredients: CocktailIngredient[]
   categories: string[]
   makeable: boolean
-  missing: CocktailIngredient[]
+  missing: MissingIngredient[]
+  imageUrl: string | null
+}
+
+/** A Spirit Kind or Mixer a Cocktail needs that stock doesn't cover (see CONTEXT.md). */
+export type MissingIngredient = Omit<CocktailIngredient, 'amount'>
+
+export type CocktailSearch = {
+  makeable?: boolean
+  category?: string
+  q?: string
+  missing?: number
+  maxMissing?: number
+  missingOnly?: 'MIXERS' | 'SPIRIT_KINDS'
+  mixerId?: number
+}
+
+export type ShoppingItem = MissingIngredient & { unlocks: { id: number; name: string }[] }
+
+export type MenuItem = {
+  id: number
+  name: string
+  description: string
+  ingredients: { spiritKind: string | null; mixer: string | null }[]
+  servedIn: string | null
+  iceInCup: boolean
+  categories: string[]
+  imageUrl: string | null
 }
 
 export class ApiError extends Error {
@@ -103,5 +130,23 @@ export const api = {
   mixers: () => request<Mixer[]>('GET', '/api/mixers'),
   setMixerStock: (id: number, inStock: boolean) => request<Mixer>('PATCH', `/api/mixers/${id}`, { inStock }),
 
-  cocktails: () => request<Cocktail[]>('GET', '/api/cocktails'),
+  cocktails: (search: CocktailSearch = {}) => request<Cocktail[]>('GET', `/api/cocktails${query(search)}`),
+  shoppingList: () => request<ShoppingItem[]>('GET', '/api/cocktails/shopping-list'),
+  uploadCocktailImage: (id: number, file: File) => {
+    const form = new FormData()
+    form.append('file', file)
+    return request<Cocktail>('PUT', `/api/cocktails/${id}/image`, form)
+  },
+  removeCocktailImage: (id: number) => request('DELETE', `/api/cocktails/${id}/image`),
+
+  menu: (search: { q?: string; category?: string } = {}) => request<MenuItem[]>('GET', `/api/menu${query(search)}`),
+}
+
+function query(params: Record<string, string | number | boolean | undefined>): string {
+  const search = new URLSearchParams()
+  for (const [key, value] of Object.entries(params)) {
+    if (value !== undefined && value !== '') search.set(key, String(value))
+  }
+  const text = search.toString()
+  return text ? `?${text}` : ''
 }

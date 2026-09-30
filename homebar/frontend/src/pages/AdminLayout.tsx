@@ -5,9 +5,9 @@ import { NavLink as RouterNavLink, Outlet } from 'react-router'
 import { api } from '../api'
 
 const PAGES = [
-  { to: '/bottles', label: 'Bottles' },
-  { to: '/mixers', label: 'Mixers' },
-  { to: '/cocktails', label: 'Cocktails' },
+  { to: '/admin/bottles', label: 'Bottles' },
+  { to: '/admin/mixers', label: 'Mixers' },
+  { to: '/admin/cocktails', label: 'Cocktails' },
 ]
 
 export default function AdminLayout({ name }: { name: string }) {
@@ -49,6 +49,7 @@ export default function AdminLayout({ name }: { name: string }) {
             {({ isActive }) => <NavLink component="span" label={page.label} active={isActive} />}
           </RouterNavLink>
         ))}
+        <NavLink component="a" href="/" target="_blank" label="View guest menu ↗" mt="auto" />
       </AppShell.Navbar>
       <AppShell.Main>
         <Outlet />

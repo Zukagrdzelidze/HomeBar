@@ -23,3 +23,8 @@ export const STATUS_COLOR = { IN_STOCK: 'green', LOW: 'yellow', EMPTY: 'gray' } 
 export function ingredientLabel(ingredient: { amount: string; spiritKind: string | null; mixer: { name: string } | null }) {
   return `${ingredient.amount} ${ingredient.spiritKind ? label(ingredient.spiritKind) : ingredient.mixer?.name}`
 }
+
+/** Same key for an ingredient line and its Missing Ingredient, so a card can tell which lines are missing. */
+export function ingredientKey(ingredient: { spiritKind: string | null; mixer: { id: number } | null }) {
+  return ingredient.spiritKind ?? `mixer:${ingredient.mixer?.id}`
+}

@@ -2,6 +2,7 @@ package mini.homebar.admin;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
@@ -28,6 +29,7 @@ class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/register", "/api/auth/login", "/api/auth/csrf",
                                 "/api/auth/registration-open", "/error").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/menu", "/api/cocktails/*/image").permitAll()
                         .requestMatchers("/api/**").authenticated()
                         .anyRequest().permitAll())
                 .csrf(csrf -> csrf.spa())

@@ -18,6 +18,6 @@ spring:
       # the real 5 MB limit is ImageFormat.MAX_BYTES.
       max-file-size: 20MB
       max-request-size: 20MB
-server:
-  error:
-    include-message: always
+  web:
+    error:
+      include-message: always

@@ -19,7 +19,7 @@ export default function RegisterPage() {
           <Alert color="yellow" title="Registration is closed">
             An admin account already exists, so log in instead.
           </Alert>
-          <Anchor component={Link} to="/login" ta="center">
+          <Anchor component={Link} to="/admin/login" ta="center">
             Go to login
           </Anchor>
         </Stack>
@@ -42,7 +42,7 @@ export default function RegisterPage() {
       onSubmit={(name, password) => register.mutate({ name, password })}
       footer={
         <Text size="sm" ta="center">
-          <Anchor component={Link} to="/login">
+          <Anchor component={Link} to="/admin/login">
             Back to login
           </Anchor>
         </Text>
