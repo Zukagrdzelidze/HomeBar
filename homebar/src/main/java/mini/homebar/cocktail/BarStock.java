@@ -30,6 +30,11 @@ public final class BarStock {
                 mixers.stream().filter(Mixer::isInStock).map(Mixer::getId).collect(Collectors.toSet()));
     }
 
+    /** The Spirit Kinds some Bottle can pour into a Cocktail right now. */
+    public Set<SpiritKind> pourableSpiritKinds() {
+        return pourableSpiritKinds;
+    }
+
     /** The Missing Ingredients, each distinct thing to buy once, in recipe order; empty means the Cocktail is Makeable. */
     public List<MissingIngredient> missingFor(Cocktail cocktail) {
         return cocktail.getIngredients().stream()

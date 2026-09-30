@@ -29,7 +29,7 @@ class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/register", "/api/auth/login", "/api/auth/csrf",
                                 "/api/auth/registration-open", "/error").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/menu", "/api/cocktails/*/image").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/menu", "/api/menu/ingredients", "/api/cocktails/*/image").permitAll()
                         .requestMatchers("/api/**").authenticated()
                         .anyRequest().permitAll())
                 .csrf(csrf -> csrf.spa())

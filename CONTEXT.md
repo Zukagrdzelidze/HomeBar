@@ -14,6 +14,10 @@ _Avoid_: User, owner, bartender
 Anyone browsing the bar's menu without logging in. A Guest only ever sees Makeable Cocktails and never sees stock.
 _Avoid_: Customer, user, visitor
 
+**Ingredient Pick**:
+The in-stock Spirit Kinds and Mixers a Guest says they want in their drink. The menu shows every Makeable Cocktail containing all of them, or, when none does, the five closest.
+_Avoid_: Filter, pantry
+
 ### Stock
 
 **Bottle**:

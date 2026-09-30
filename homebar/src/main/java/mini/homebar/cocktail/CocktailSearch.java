@@ -20,9 +20,9 @@ record CocktailSearch(Boolean makeable, SpiritKind category, String q, Integer m
 
     enum MissingKind { MIXERS, SPIRIT_KINDS }
 
-    /** The Guests' menu: Makeable Cocktails only, narrowed by name and Cocktail Category. */
-    static CocktailSearch menu(String q, SpiritKind category) {
-        return new CocktailSearch(true, category, q, null, null, null, null);
+    /** The Guests' menu: Makeable Cocktails only, narrowed by name. */
+    static CocktailSearch menu(String q) {
+        return new CocktailSearch(true, null, q, null, null, null, null);
     }
 
     boolean matches(Cocktail cocktail, List<MissingIngredient> missingIngredients) {

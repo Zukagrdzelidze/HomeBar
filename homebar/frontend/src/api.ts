@@ -55,16 +55,28 @@ export type CocktailSearch = {
 
 export type ShoppingItem = MissingIngredient & { unlocks: { id: number; name: string }[] }
 
+/** An ingredient as a Guest sees it: a Spirit Kind or a Mixer's name. */
+export type MenuIngredient = { spiritKind: string | null; mixer: string | null }
+
 export type MenuItem = {
   id: number
   name: string
   description: string
-  ingredients: { spiritKind: string | null; mixer: string | null }[]
+  ingredients: MenuIngredient[]
   servedIn: string | null
   iceInCup: boolean
   categories: string[]
   imageUrl: string | null
+  /** What the Guest picked that this Cocktail doesn't contain; empty for an exact match. */
+  lacking: MenuIngredient[]
 }
+
+/** exact is false when nothing contained everything picked and items are the closest matches instead. */
+export type Menu = { exact: boolean; items: MenuItem[] }
+
+export type MenuSearch = { q?: string; spiritKinds: string[]; mixerIds: number[] }
+
+export type PickOptions = { spiritKinds: string[]; mixers: { id: number; name: string }[] }
 
 export class ApiError extends Error {
   readonly status: number
@@ -139,7 +151,15 @@ export const api = {
   },
   removeCocktailImage: (id: number) => request('DELETE', `/api/cocktails/${id}/image`),
 
-  menu: (search: { q?: string; category?: string } = {}) => request<MenuItem[]>('GET', `/api/menu${query(search)}`),
+  menu: ({ q, spiritKinds, mixerIds }: MenuSearch) => {
+    const params = new URLSearchParams()
+    if (q) params.set('q', q)
+    spiritKinds.forEach((kind) => params.append('spiritKind', kind))
+    mixerIds.forEach((id) => params.append('mixerId', String(id)))
+    const text = params.toString()
+    return request<Menu>('GET', `/api/menu${text ? `?${text}` : ''}`)
+  },
+  pickOptions: () => request<PickOptions>('GET', '/api/menu/ingredients'),
 }
 
 function query(params: Record<string, string | number | boolean | undefined>): string {
