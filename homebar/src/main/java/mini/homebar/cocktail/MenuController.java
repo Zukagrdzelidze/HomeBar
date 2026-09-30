@@ -44,7 +44,7 @@ class MenuController {
     }
 
     /**
-     * servedIn is the last Cup of the Cup Sequence, or null if the recipe lists none.
+     * servedIn is the Cocktail's best Cup (the first one), or null if the recipe lists none.
      * lacking is what the Guest picked that this Cocktail doesn't contain; empty for an exact match.
      */
     record MenuItem(long id, String name, String description, List<MenuIngredient> ingredients,
@@ -59,7 +59,7 @@ class MenuController {
             match.lackingMixerIds().forEach(id -> lacking.add(new MenuIngredient(null, mixerNames.get(id))));
             return new MenuItem(cocktail.getId(), cocktail.getName(), cocktail.getDescription(),
                     cocktail.getIngredients().stream().map(MenuIngredient::of).distinct().toList(),
-                    cups.isEmpty() ? null : cups.getLast(), cocktail.isIceInCup(), cocktail.categories(),
+                    cups.isEmpty() ? null : cups.getFirst(), cocktail.isIceInCup(), cocktail.categories(),
                     hasImage ? CocktailImage.urlFor(cocktail.getId()) : null, lacking);
         }
     }

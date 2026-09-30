@@ -87,16 +87,13 @@ abstract class ApiTest {
 
         long insert() {
             long id = jdbc.queryForObject(
-                    "insert into cocktails (name, description, ice_in_cup) values (?, ?, ?) returning id",
-                    Long.class, name, description, iceInCup);
+                    "insert into cocktails (name, description, ice_in_cup, cups) values (?, ?, ?, ?) returning id",
+                    Long.class, name, description, iceInCup, String.join(",", cups));
             for (int i = 0; i < ingredients.size(); i++) {
                 Object[] ingredient = ingredients.get(i);
                 jdbc.update("""
                         insert into cocktail_ingredients (cocktail_id, position, amount, spirit_kind, mixer_id)
                         values (?, ?, ?, ?, ?)""", id, i, ingredient[0], ingredient[1], ingredient[2]);
-            }
-            for (int i = 0; i < cups.size(); i++) {
-                jdbc.update("insert into cocktail_cups (cocktail_id, position, cup) values (?, ?, ?)", id, i, cups.get(i));
             }
             return id;
         }

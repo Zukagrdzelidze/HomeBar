@@ -219,7 +219,8 @@ function CocktailCard({ cocktail }: { cocktail: Cocktail }) {
           </Text>
         )}
         <Text size="sm" c="dimmed">
-          {cocktail.cups.map(label).join(' → ')}
+          {cocktail.cups.length > 0 && label(cocktail.cups[0])}
+          {cocktail.cups.length > 1 && ` (or ${cocktail.cups.slice(1).map(label).join(', ')})`}
           {cocktail.iceInCup ? ' · over ice' : ' · no ice'}
         </Text>
         {cocktail.description && <Text size="sm">{cocktail.description}</Text>}

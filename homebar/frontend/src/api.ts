@@ -32,6 +32,7 @@ export type Cocktail = {
   name: string
   description: string
   iceInCup: boolean
+  /** Best cup first, then fallbacks. */
   cups: string[]
   ingredients: CocktailIngredient[]
   categories: string[]

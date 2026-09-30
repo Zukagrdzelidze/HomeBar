@@ -51,16 +51,16 @@ _Avoid_: Note, review, comment
 ### Cocktails
 
 **Cocktail**:
-A fixed recipe: a name, Cocktail Ingredients, a Cup Sequence, a description, and whether it is served over ice, plus an optional photo. The Admin can change only the photo; the recipe itself is fixed.
+A fixed recipe: a name, Cocktail Ingredients, its Cups, a description, and whether it is served over ice, plus an optional photo. The Admin can change only the photo; the recipe itself is fixed.
 _Avoid_: Drink, recipe (on its own)
 
 **Cocktail Ingredient**:
 One line of a Cocktail's recipe: an amount (free text, e.g. "2 oz") plus either a Spirit Kind or a Mixer.
 _Avoid_: Ingredient (unqualified), component
 
-**Cup Sequence**:
-The ordered list of vessels a Cocktail passes through. The last one is the glass it is served in (e.g. shaker → coupe).
-_Avoid_: Sequence of cups, glassware list
+**Cups**:
+The glasses a Cocktail can be served in, best first, then fallbacks in order of preference. The first one is what the Guest menu shows.
+_Avoid_: Cup Sequence, glassware list
 
 **Cocktail Categories**:
 The Spirit Kinds a Cocktail contains. These always come from its Cocktail Ingredients and are never chosen separately.

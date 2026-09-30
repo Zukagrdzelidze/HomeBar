@@ -98,7 +98,7 @@ export default function MenuPage() {
 
 function MenuCard({ item }: { item: MenuItem }) {
   const ingredients = item.ingredients.map(ingredientName)
-  const serving = [item.servedIn && `Served in a ${label(item.servedIn).toLowerCase()}`, item.iceInCup ? 'over ice' : 'no ice']
+  const serving = [item.servedIn && `Glass: ${label(item.servedIn)}`, item.iceInCup ? 'over ice' : 'no ice']
     .filter(Boolean)
     .join(', ')
 

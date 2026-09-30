@@ -17,7 +17,7 @@ class CocktailApiTest extends ApiTest {
         long syrup = mixer("Simple syrup", true);
         long id = cocktail("Daiquiri")
                 .description("Rum, lime and sugar, shaken hard")
-                .cups("SHAKER", "COUPE")
+                .cups("COUPE", "MARTINI")
                 .spiritKind("2 oz", "WHITE_RUM")
                 .mixer("1 oz", lime)
                 .mixer("0.75 oz", syrup)
@@ -29,7 +29,7 @@ class CocktailApiTest extends ApiTest {
         assertThat(daiquiri.get("name").asString()).isEqualTo("Daiquiri");
         assertThat(daiquiri.get("description").asString()).isEqualTo("Rum, lime and sugar, shaken hard");
         assertThat(daiquiri.get("iceInCup").asBoolean()).isFalse();
-        assertThat(texts(daiquiri.get("cups"))).containsExactly("SHAKER", "COUPE");
+        assertThat(texts(daiquiri.get("cups"))).containsExactly("COUPE", "MARTINI");
         var ingredients = daiquiri.get("ingredients");
         assertThat(ingredients.size()).isEqualTo(3);
         assertThat(ingredients.get(0).get("amount").asString()).isEqualTo("2 oz");
@@ -44,7 +44,7 @@ class CocktailApiTest extends ApiTest {
 
     @Test
     void cocktailCategoriesAreTheSpiritKindsItContains() {
-        cocktail("Negroni").overIce().cups("MIXING_GLASS", "ROCKS")
+        cocktail("Negroni").overIce().cups("OLD_FASHIONED", "WINE")
                 .spiritKind("1 oz", "GIN").spiritKind("1 oz", "CAMPARI").spiritKind("1 oz", "SWEET_VERMOUTH")
                 .insert();
 
@@ -64,7 +64,7 @@ class CocktailApiTest extends ApiTest {
     }
 
     long daiquiri(long lime) {
-        return cocktail("Daiquiri").cups("SHAKER", "COUPE").spiritKind("2 oz", "WHITE_RUM").mixer("1 oz", lime).insert();
+        return cocktail("Daiquiri").cups("COUPE", "MARTINI").spiritKind("2 oz", "WHITE_RUM").mixer("1 oz", lime).insert();
     }
 
     @Test
@@ -141,8 +141,8 @@ class CocktailApiTest extends ApiTest {
     void cocktailsCanBeFilteredToMakeableOnesAndByCategory() {
         long lime = mixer("Lime juice", true);
         daiquiri(lime);
-        cocktail("Gimlet").cups("SHAKER", "COUPE").spiritKind("2 oz", "GIN").mixer("0.75 oz", lime).insert();
-        cocktail("Negroni").cups("MIXING_GLASS", "ROCKS")
+        cocktail("Gimlet").cups("COUPE", "MARTINI").spiritKind("2 oz", "GIN").mixer("0.75 oz", lime).insert();
+        cocktail("Negroni").cups("OLD_FASHIONED", "WINE")
                 .spiritKind("1 oz", "GIN").spiritKind("1 oz", "CAMPARI").spiritKind("1 oz", "SWEET_VERMOUTH").insert();
         Api api = admin();
         bottle(api, "Tanqueray", "GIN", false, "IN_STOCK");

@@ -3,17 +3,12 @@ package mini.homebar.cocktail;
 import java.util.ArrayList;
 import java.util.List;
 
-import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
-import jakarta.persistence.ElementCollection;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OrderBy;
-import jakarta.persistence.OrderColumn;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -41,11 +36,8 @@ public class Cocktail {
     @OrderBy("position")
     private List<CocktailIngredient> ingredients = new ArrayList<>();
 
-    @ElementCollection
-    @CollectionTable(name = "cocktail_cups", joinColumns = @JoinColumn(name = "cocktail_id"))
-    @OrderColumn(name = "position")
-    @Column(name = "cup")
-    @Enumerated(EnumType.STRING)
+    /** Best cup first, then fallbacks in order of preference. */
+    @Convert(converter = CupListConverter.class)
     private List<Cup> cups = new ArrayList<>();
 
     /** Cocktail Categories: the Spirit Kinds this Cocktail contains, in recipe order. */
