@@ -1,22 +1,24 @@
 import {
-  Alert, Badge, Box, Card, Center, Container, Group, Loader, MultiSelect, Paper, SimpleGrid, Spoiler, Stack, Text, TextInput, Title,
+  Alert, Badge, Box, Card, Center, Chip, Container, Group, Loader, MultiSelect, Paper, SimpleGrid, Spoiler, Stack, Text, TextInput, Title,
 } from '@mantine/core'
 import { useDebouncedValue } from '@mantine/hooks'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
-import { api, type MenuIngredient, type MenuItem, type MenuSearch } from '../api'
+import { api, type Flavour, type MenuIngredient, type MenuItem, type MenuSearch, type Strength } from '../api'
 import CocktailPicture from '../CocktailPicture'
-import { label } from '../labels'
+import { FLAVOURS, label, STRENGTH_COLOR, STRENGTHS } from '../labels'
 
 // The picker holds Spirit Kinds and Mixers in one list, so each value says which it is.
 const KIND = 'kind:'
 const MIXER = 'mixer:'
 
-function toSearch(q: string, picked: string[]): MenuSearch {
+function toSearch(q: string, picked: string[], strength: Strength | undefined, flavours: Flavour[]): MenuSearch {
   return {
     q: q.trim() || undefined,
     spiritKinds: picked.filter((value) => value.startsWith(KIND)).map((value) => value.slice(KIND.length)),
     mixerIds: picked.filter((value) => value.startsWith(MIXER)).map((value) => Number(value.slice(MIXER.length))),
+    strength,
+    flavours,
   }
 }
 
@@ -29,11 +31,13 @@ export default function MenuPage() {
   const [q, setQ] = useState('')
   const [debouncedQ] = useDebouncedValue(q, 250)
   const [picked, setPicked] = useState<string[]>([])
+  const [strength, setStrength] = useState<Strength>()
+  const [flavours, setFlavours] = useState<Flavour[]>([])
 
-  const search = toSearch(debouncedQ, picked)
+  const search = toSearch(debouncedQ, picked, strength, flavours)
   const menu = useQuery({ queryKey: ['menu', search], queryFn: () => api.menu(search), placeholderData: keepPreviousData })
   const options = useQuery({ queryKey: ['menu', 'pick-options'], queryFn: api.pickOptions })
-  const filtering = Boolean(search.q || picked.length)
+  const filtering = Boolean(search.q || picked.length || strength || flavours.length)
 
   const pickData = [
     {
@@ -85,6 +89,27 @@ export default function MenuPage() {
               style={{ flex: 1 }}
             />
           </Group>
+          <Group gap="xs" mt="md">
+            {STRENGTHS.map((value) => (
+              <Chip
+                key={value}
+                color={STRENGTH_COLOR[value]}
+                checked={strength === value}
+                onChange={() => setStrength(strength === value ? undefined : value)}
+              >
+                {label(value)}
+              </Chip>
+            ))}
+          </Group>
+          <Chip.Group multiple value={flavours} onChange={(value) => setFlavours(value as Flavour[])}>
+            <Group gap="xs" mt="xs">
+              {FLAVOURS.map((value) => (
+                <Chip key={value} value={value} variant="outline">
+                  {label(value)}
+                </Chip>
+              ))}
+            </Group>
+          </Chip.Group>
         </Paper>
         <Stack mt="xl">
         {menu.isPending ? (
@@ -160,6 +185,16 @@ function MenuCard({ item }: { item: MenuItem }) {
         <Text fw={700} size="xl" lh={1.2}>
           {item.name}
         </Text>
+        <Group gap={6}>
+          <Badge color={STRENGTH_COLOR[item.strength]} variant="filled" size="sm">
+            {label(item.strength)}
+          </Badge>
+          {item.flavours.map((flavour) => (
+            <Badge key={flavour} color="grape" variant="light" size="sm">
+              {label(flavour)}
+            </Badge>
+          ))}
+        </Group>
         {item.lacking.length > 0 && (
           <Badge color="orange" variant="light" size="md" style={{ alignSelf: 'flex-start', textTransform: 'none' }}>
             No {item.lacking.map(ingredientName).join(', no ')}

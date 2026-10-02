@@ -17,6 +17,12 @@ export function label(value: string): string {
   return words.charAt(0).toUpperCase() + words.slice(1)
 }
 
+export const STRENGTHS = ['LIGHT', 'MEDIUM', 'STRONG'] as const
+export const FLAVOURS = [
+  'SWEET', 'SOUR', 'BITTER', 'FRUITY', 'REFRESHING', 'CREAMY', 'HERBAL', 'SPICY', 'SMOKY', 'COFFEE',
+] as const
+export const STRENGTH_COLOR = { LIGHT: 'teal', MEDIUM: 'yellow', STRONG: 'red' } as const
+
 export const STATUS_LABEL = { IN_STOCK: 'In stock', LOW: 'Running low', EMPTY: 'Empty' } as const
 export const STATUS_COLOR = { IN_STOCK: 'green', LOW: 'yellow', EMPTY: 'gray' } as const
 

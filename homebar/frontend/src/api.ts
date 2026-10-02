@@ -67,6 +67,8 @@ export type MenuItem = {
   servedIn: string | null
   iceInCup: boolean
   categories: string[]
+  strength: Strength
+  flavours: Flavour[]
   imageUrl: string | null
   /** What the Guest picked that this Cocktail doesn't contain; empty for an exact match. */
   lacking: MenuIngredient[]
@@ -75,7 +77,18 @@ export type MenuItem = {
 /** exact is false when nothing contained everything picked and items are the closest matches instead. */
 export type Menu = { exact: boolean; items: MenuItem[] }
 
-export type MenuSearch = { q?: string; spiritKinds: string[]; mixerIds: number[] }
+export type Strength = 'LIGHT' | 'MEDIUM' | 'STRONG'
+
+export type Flavour =
+  | 'SWEET' | 'SOUR' | 'BITTER' | 'FRUITY' | 'REFRESHING' | 'CREAMY' | 'HERBAL' | 'SPICY' | 'SMOKY' | 'COFFEE'
+
+export type MenuSearch = {
+  q?: string
+  spiritKinds: string[]
+  mixerIds: number[]
+  strength?: Strength
+  flavours: Flavour[]
+}
 
 export type PickOptions = { spiritKinds: string[]; mixers: { id: number; name: string }[] }
 
@@ -152,11 +165,13 @@ export const api = {
   },
   removeCocktailImage: (id: number) => request('DELETE', `/api/cocktails/${id}/image`),
 
-  menu: ({ q, spiritKinds, mixerIds }: MenuSearch) => {
+  menu: ({ q, spiritKinds, mixerIds, strength, flavours }: MenuSearch) => {
     const params = new URLSearchParams()
     if (q) params.set('q', q)
     spiritKinds.forEach((kind) => params.append('spiritKind', kind))
     mixerIds.forEach((id) => params.append('mixerId', String(id)))
+    if (strength) params.set('strength', strength)
+    flavours.forEach((flavour) => params.append('flavour', flavour))
     const text = params.toString()
     return request<Menu>('GET', `/api/menu${text ? `?${text}` : ''}`)
   },

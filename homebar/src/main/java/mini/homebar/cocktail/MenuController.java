@@ -48,8 +48,8 @@ class MenuController {
      * lacking is what the Guest picked that this Cocktail doesn't contain; empty for an exact match.
      */
     record MenuItem(long id, String name, String description, List<MenuIngredient> ingredients,
-                    Cup servedIn, boolean iceInCup, List<SpiritKind> categories, String imageUrl,
-                    List<MenuIngredient> lacking) {
+                    Cup servedIn, boolean iceInCup, List<SpiritKind> categories, Strength strength,
+                    List<Flavour> flavours, String imageUrl, List<MenuIngredient> lacking) {
 
         static MenuItem of(IngredientPick.Match match, boolean hasImage, Map<Long, String> mixerNames) {
             var cocktail = match.cocktail();
@@ -60,7 +60,7 @@ class MenuController {
             return new MenuItem(cocktail.getId(), cocktail.getName(), cocktail.getDescription(),
                     cocktail.getIngredients().stream().map(MenuIngredient::of).distinct().toList(),
                     cups.isEmpty() ? null : cups.getFirst(), cocktail.isIceInCup(), cocktail.categories(),
-                    hasImage ? CocktailImage.urlFor(cocktail.getId()) : null, lacking);
+                    cocktail.getStrength(), cocktail.getFlavours(), hasImage ? CocktailImage.urlFor(cocktail.getId()) : null, lacking);
         }
     }
 
@@ -79,11 +79,15 @@ class MenuController {
     @Transactional(readOnly = true)
     Menu menu(@RequestParam(required = false) String q,
               @RequestParam(required = false) Set<SpiritKind> spiritKind,
-              @RequestParam(required = false) Set<Long> mixerId) {
+              @RequestParam(required = false) Set<Long> mixerId,
+              @RequestParam(required = false) Strength strength,
+              @RequestParam(required = false) Set<Flavour> flavour) {
         var stock = currentStock.read();
         var search = CocktailSearch.menu(q);
+        var taste = new TastePick(strength, flavour == null ? Set.of() : flavour);
         var makeable = cocktails.findAll(Sort.by("name")).stream()
                 .filter(cocktail -> search.matches(cocktail, stock.missingFor(cocktail)))
+                .filter(taste::matches)
                 .toList();
         var pick = new IngredientPick(spiritKind == null ? Set.of() : spiritKind, mixerId == null ? Set.of() : mixerId);
         var result = pick.rank(makeable);

@@ -18,6 +18,10 @@ _Avoid_: Customer, user, visitor
 The in-stock Spirit Kinds and Mixers a Guest says they want in their drink. The menu shows every Makeable Cocktail containing all of them, or, when none does, the five closest.
 _Avoid_: Filter, pantry
 
+**Taste Pick**:
+The Strength and Flavours a Guest says they feel like. Unlike an Ingredient Pick it is strict: the menu shows only Makeable Cocktails with that Strength and every picked Flavour, never close matches.
+_Avoid_: Mood, preference
+
 ### Stock
 
 **Bottle**:
@@ -51,7 +55,7 @@ _Avoid_: Note, review, comment
 ### Cocktails
 
 **Cocktail**:
-A fixed recipe: a name, Cocktail Ingredients, its Cups, a description, and whether it is served over ice, plus an optional photo. The Admin can change only the photo; the recipe itself is fixed.
+A fixed recipe: a name, Cocktail Ingredients, its Cups, a description, whether it is served over ice, its Strength and Flavours, plus an optional photo. The Admin can change only the photo; the recipe itself is fixed.
 _Avoid_: Drink, recipe (on its own)
 
 **Cocktail Ingredient**:
@@ -65,6 +69,14 @@ _Avoid_: Cup Sequence, glassware list
 **Cocktail Categories**:
 The Spirit Kinds a Cocktail contains. These always come from its Cocktail Ingredients and are never chosen separately.
 _Avoid_: Tags, type
+
+**Strength**:
+How boozy a Cocktail tastes: light, medium or strong. Every Cocktail has exactly one, set by hand in its migration rather than calculated from amounts.
+_Avoid_: ABV, proof
+
+**Flavour**:
+A taste a Cocktail has (sweet, sour, bitter, fruity, refreshing, creamy, herbal, spicy, smoky, coffee). A Cocktail has any number of them, set by hand like Strength.
+_Avoid_: Tag, taste category
 
 **Makeable**:
 A Cocktail is Makeable when every Spirit Kind it needs has at least one in-stock (or running-low) Bottle that is not a Sipping Bottle, and every Mixer it needs is in stock.

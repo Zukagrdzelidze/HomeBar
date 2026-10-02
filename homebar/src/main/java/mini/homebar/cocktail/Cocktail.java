@@ -6,6 +6,8 @@ import java.util.List;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OrderBy;
@@ -39,6 +41,12 @@ public class Cocktail {
     /** Best cup first, then fallbacks in order of preference. */
     @Convert(converter = CupListConverter.class)
     private List<Cup> cups = new ArrayList<>();
+
+    @Enumerated(EnumType.STRING)
+    private Strength strength;
+
+    @Convert(converter = FlavourListConverter.class)
+    private List<Flavour> flavours = new ArrayList<>();
 
     /** Cocktail Categories: the Spirit Kinds this Cocktail contains, in recipe order. */
     public List<SpiritKind> categories() {
