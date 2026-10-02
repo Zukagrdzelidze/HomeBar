@@ -1,11 +1,12 @@
 import {
-  Alert, Badge, Button, Card, Center, FileButton, Group, Image, List, Loader, NumberInput, SegmentedControl, Select,
+  Alert, Badge, Button, Card, Center, FileButton, Group, List, Loader, NumberInput, SegmentedControl, Select,
   SimpleGrid, Stack, Text, TextInput, Title,
 } from '@mantine/core'
 import { useDebouncedValue } from '@mantine/hooks'
 import { notifications } from '@mantine/notifications'
 import { keepPreviousData, useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
+import CocktailPicture from '../CocktailPicture'
 import { api, type Cocktail, type CocktailSearch, type MissingIngredient } from '../api'
 import { ingredientKey, ingredientLabel, label, SPIRIT_KINDS } from '../labels'
 import { PHOTO_TYPES, photoError } from '../photo'
@@ -181,11 +182,16 @@ function CocktailCard({ cocktail }: { cocktail: Cocktail }) {
   return (
     <Card withBorder radius="md" padding="md">
       <Stack gap="xs">
-        {cocktail.imageUrl && (
-          <Card.Section>
-            <Image src={cocktail.imageUrl} h={160} alt="" />
-          </Card.Section>
-        )}
+        <Card.Section>
+          <CocktailPicture
+            name={cocktail.name}
+            imageUrl={cocktail.imageUrl}
+            cup={cocktail.cups[0] ?? null}
+            categories={cocktail.categories}
+            iceInCup={cocktail.iceInCup}
+            height={160}
+          />
+        </Card.Section>
         <Group justify="space-between" wrap="nowrap">
           <Text fw={700} size="lg">
             {cocktail.name}
