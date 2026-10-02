@@ -1,10 +1,16 @@
+server:
+  port: ${PORT:8080}
+  # Render terminates HTTPS in front of the app; trust its X-Forwarded-* headers.
+  forward-headers-strategy: framework
+
 spring:
   application:
     name: homebar
+  # Defaults match compose.yaml for local runs; Render sets the real values.
   datasource:
-    url: jdbc:postgresql://localhost:5432/homebar
-    username: homebar
-    password: homebar
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/homebar}
+    username: ${DB_USER:homebar}
+    password: ${DB_PASSWORD:homebar}
   jpa:
     hibernate:
       ddl-auto: validate
