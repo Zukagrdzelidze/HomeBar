@@ -82,13 +82,13 @@ function BottleCard({ bottle, onEdit }: { bottle: Bottle; onEdit: () => void }) 
   })
 
   return (
-    <Card withBorder radius="md" padding="md" opacity={bottle.status === 'EMPTY' ? 0.6 : 1}>
+    <Card withBorder padding="md" opacity={bottle.status === 'EMPTY' ? 0.6 : 1}>
       <Card.Section>
         <AspectRatio ratio={4 / 3}>
           {bottle.imageUrl ? (
-            <Image src={bottle.imageUrl} alt={bottle.name} fit="contain" bg="gray.1" />
+            <Image src={bottle.imageUrl} alt={bottle.name} fit="contain" bg="var(--mantine-color-default-hover)" />
           ) : (
-            <Center bg="gray.1">
+            <Center bg="var(--mantine-color-default-hover)">
               <Text c="dimmed" size="sm">
                 No photo
               </Text>
@@ -97,10 +97,16 @@ function BottleCard({ bottle, onEdit }: { bottle: Bottle; onEdit: () => void }) 
         </AspectRatio>
       </Card.Section>
       <Stack gap={6} mt="sm">
-        <Text fw={600}>{bottle.name}</Text>
+        <Text fw={600} size="lg" ff="heading">
+          {bottle.name}
+        </Text>
         <Group gap={6}>
-          <Badge variant="light">{label(bottle.spiritKind)}</Badge>
-          <Badge color={STATUS_COLOR[bottle.status]}>{STATUS_LABEL[bottle.status]}</Badge>
+          <Badge variant="light" color="gray">
+            {label(bottle.spiritKind)}
+          </Badge>
+          <Badge variant="dot" color={STATUS_COLOR[bottle.status]}>
+            {STATUS_LABEL[bottle.status]}
+          </Badge>
           {bottle.sipping && (
             <Badge color="orange" variant="outline">
               Sipping

@@ -20,7 +20,7 @@ export default function LoginPage() {
 
   return (
     <AuthCard
-      title="HomeBar admin"
+      title="Admin login"
       submitLabel="Log in"
       error={error}
       submitting={login.isPending}

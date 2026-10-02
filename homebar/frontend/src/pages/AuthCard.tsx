@@ -1,4 +1,4 @@
-import { Alert, Button, Center, Paper, PasswordInput, Stack, TextInput, Title } from '@mantine/core'
+import { Alert, Button, Center, Paper, PasswordInput, Stack, Text, TextInput, Title } from '@mantine/core'
 import { useForm } from '@mantine/form'
 import type { ReactNode } from 'react'
 
@@ -21,11 +21,16 @@ export default function AuthCard({ title, submitLabel, error, submitting, onSubm
   })
 
   return (
-    <Center h="100vh" px="md">
-      <Paper withBorder shadow="sm" p="xl" radius="md" w="100%" maw={380}>
+    <Center mih="100vh" px="md" className="bar-backdrop">
+      <Paper shadow="xl" p="xl" w="100%" maw={380}>
         <form onSubmit={form.onSubmit(({ name, password }) => onSubmit(name.trim(), password))}>
           <Stack>
-            <Title order={2}>{title}</Title>
+            <div>
+              <Text className="eyebrow">HomeBar</Text>
+              <Title order={2} mt={4}>
+                {title}
+              </Title>
+            </div>
             {error && <Alert color="red">{error}</Alert>}
             <TextInput label="Name" autoComplete="username" {...form.getInputProps('name')} />
             <PasswordInput label="Password" autoComplete="current-password" {...form.getInputProps('password')} />

@@ -19,7 +19,7 @@ export default function MixersPage() {
           No mixers yet. They are added by a database migration together with the cocktails that use them.
         </Text>
       ) : (
-        <Paper withBorder radius="md" maw={560}>
+        <Paper withBorder maw={560} style={{ overflow: 'hidden' }}>
           <Table verticalSpacing="sm" highlightOnHover>
             <Table.Tbody>
               {mixers.data.map((mixer) => (

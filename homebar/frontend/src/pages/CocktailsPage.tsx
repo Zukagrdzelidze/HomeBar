@@ -10,7 +10,7 @@ import CocktailPicture from '../CocktailPicture'
 import { api, type Cocktail, type CocktailSearch, type MissingIngredient } from '../api'
 import { ingredientKey, ingredientLabel, label, SPIRIT_KINDS } from '../labels'
 import { PHOTO_TYPES, photoError } from '../photo'
-import TasteBadges from '../TasteBadges'
+import Taste from '../Taste'
 
 type Availability = 'all' | 'makeable' | 'missing'
 type CountMode = 'any' | 'exactly' | 'atMost'
@@ -48,7 +48,7 @@ export default function CocktailsPage() {
       <Title order={2}>Cocktails</Title>
       <ShoppingList />
 
-      <Card withBorder radius="md" padding="sm">
+      <Card withBorder padding="md">
         <Stack gap="sm">
           <Group align="end">
             <TextInput label="Name" placeholder="Search" value={q} onChange={(e) => setQ(e.currentTarget.value)} w={200} />
@@ -156,8 +156,8 @@ function ShoppingList() {
   if (!items.data?.length) return null
 
   return (
-    <Card withBorder radius="md" padding="sm">
-      <Text fw={700} mb="xs">
+    <Card withBorder padding="md" bg="var(--mantine-color-brass-light)">
+      <Text className="eyebrow" mb="xs">
         Buy next
       </Text>
       <List size="sm" spacing={4}>
@@ -181,7 +181,7 @@ function CocktailCard({ cocktail }: { cocktail: Cocktail }) {
   const missing = new Set(cocktail.missing.map(ingredientKey))
 
   return (
-    <Card withBorder radius="md" padding="md">
+    <Card withBorder padding="md">
       <Stack gap="xs">
         <Card.Section>
           <CocktailPicture
@@ -194,21 +194,21 @@ function CocktailCard({ cocktail }: { cocktail: Cocktail }) {
           />
         </Card.Section>
         <Group justify="space-between" wrap="nowrap">
-          <Text fw={700} size="lg">
+          <Title order={3} fz={20}>
             {cocktail.name}
-          </Text>
-          <Badge color={cocktail.makeable ? 'green' : 'gray'}>
+          </Title>
+          <Badge variant="light" color={cocktail.makeable ? 'green' : 'gray'} style={{ flexShrink: 0 }}>
             {cocktail.makeable ? 'Makeable' : `Missing ${cocktail.missing.length}`}
           </Badge>
         </Group>
         <Group gap={6}>
           {cocktail.categories.map((kind) => (
-            <Badge key={kind} variant="light" size="sm">
+            <Badge key={kind} variant="light" color="gray" size="sm">
               {label(kind)}
             </Badge>
           ))}
         </Group>
-        <TasteBadges strength={cocktail.strength} flavours={cocktail.flavours} />
+        <Taste strength={cocktail.strength} flavours={cocktail.flavours} />
         <List size="sm" spacing={2}>
           {cocktail.ingredients.map((ingredient, i) => {
             const isMissing = missing.has(ingredientKey(ingredient))

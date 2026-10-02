@@ -1,4 +1,4 @@
-import { AppShell, Burger, Button, Group, NavLink, Text, Title } from '@mantine/core'
+import { AppShell, Badge, Burger, Button, Group, NavLink, Text, Title } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { NavLink as RouterNavLink, Outlet } from 'react-router'
@@ -31,7 +31,12 @@ export default function AdminLayout({ name }: { name: string }) {
         <Group h="100%" px="md" justify="space-between">
           <Group gap="sm">
             <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
-            <Title order={3}>HomeBar</Title>
+            <Title order={3} fz={22}>
+              HomeBar
+            </Title>
+            <Badge variant="light" size="sm">
+              Admin
+            </Badge>
           </Group>
           <Group gap="sm">
             <Text size="sm" c="dimmed" visibleFrom="xs">
@@ -45,11 +50,19 @@ export default function AdminLayout({ name }: { name: string }) {
       </AppShell.Header>
       <AppShell.Navbar p="sm">
         {PAGES.map((page) => (
-          <RouterNavLink key={page.to} to={page.to} onClick={close} style={{ textDecoration: 'none' }}>
-            {({ isActive }) => <NavLink component="span" label={page.label} active={isActive} />}
+          <RouterNavLink key={page.to} to={page.to} onClick={close} style={{ textDecoration: 'none', color: 'inherit' }}>
+            {({ isActive }) => <NavLink component="span" label={page.label} active={isActive} fw={500} style={{ borderRadius: 'var(--mantine-radius-md)' }} />}
           </RouterNavLink>
         ))}
-        <NavLink component="a" href="/" target="_blank" label="View guest menu ↗" mt="auto" />
+        <NavLink
+          component="a"
+          href="/"
+          target="_blank"
+          label="View guest menu ↗"
+          mt="auto"
+          c="dimmed"
+          style={{ borderRadius: 'var(--mantine-radius-md)' }}
+        />
       </AppShell.Navbar>
       <AppShell.Main>
         <Outlet />

@@ -1,0 +1,110 @@
+/* The few looks Mantine props can't express. Colours come from the theme (see theme.ts). */
+
+.eyebrow {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: light-dark(var(--mantine-color-brass-7), var(--mantine-color-brass-4));
+}
+
+/* Always dark, like the bar itself: the guest menu's header and the login screen. */
+.bar-backdrop {
+  background:
+    radial-gradient(ellipse 60% 120% at 15% 0%, rgba(200, 151, 42, 0.22), transparent 70%),
+    radial-gradient(ellipse 40% 80% at 95% 100%, rgba(200, 151, 42, 0.08), transparent 70%),
+    #141210;
+}
+
+.menu-hero {
+  color: #f3ede2;
+}
+
+.menu-hero .eyebrow {
+  color: var(--mantine-color-brass-4);
+}
+
+/* A whole card opens the drink; only the heart sits above that. */
+.menu-card {
+  position: relative;
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+
+.menu-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--mantine-shadow-md);
+}
+
+.menu-card .picture {
+  overflow: hidden;
+}
+
+.menu-card .picture > * {
+  transition: transform 400ms ease;
+}
+
+.menu-card:hover .picture > * {
+  transform: scale(1.04);
+}
+
+.menu-card-open {
+  all: unset;
+  cursor: pointer;
+}
+
+.menu-card-open::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+}
+
+.menu-card-open:focus-visible::after {
+  outline: 2px solid var(--mantine-primary-color-filled);
+  outline-offset: 2px;
+}
+
+.favourite-button {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 1;
+  backdrop-filter: blur(6px);
+}
+
+/* On phones the taste chips swipe sideways instead of stacking into a tall block. */
+@media (max-width: 36em) {
+  .taste-chips {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+    margin-inline: calc(var(--mantine-spacing-md) * -1);
+    padding-inline: var(--mantine-spacing-md);
+  }
+
+  .taste-chips > * {
+    flex-shrink: 0;
+  }
+}
+
+.similar-drink {
+  border-radius: var(--mantine-radius-md);
+  padding: 6px;
+  transition: background-color 150ms ease;
+}
+
+.similar-drink:hover {
+  background-color: var(--mantine-color-default-hover);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .menu-card,
+  .menu-card .picture > * {
+    transition: none;
+  }
+
+  .menu-card:hover,
+  .menu-card:hover .picture > * {
+    transform: none;
+  }
+}
