@@ -7,6 +7,7 @@ import { useState } from 'react'
 import { api, type Flavour, type MenuIngredient, type MenuItem, type MenuSearch, type Strength } from '../api'
 import CocktailPicture from '../CocktailPicture'
 import { FLAVOURS, label, STRENGTH_COLOR, STRENGTHS } from '../labels'
+import TasteBadges from '../TasteBadges'
 
 // The picker holds Spirit Kinds and Mixers in one list, so each value says which it is.
 const KIND = 'kind:'
@@ -185,16 +186,7 @@ function MenuCard({ item }: { item: MenuItem }) {
         <Text fw={700} size="xl" lh={1.2}>
           {item.name}
         </Text>
-        <Group gap={6}>
-          <Badge color={STRENGTH_COLOR[item.strength]} variant="filled" size="sm">
-            {label(item.strength)}
-          </Badge>
-          {item.flavours.map((flavour) => (
-            <Badge key={flavour} color="grape" variant="light" size="sm">
-              {label(flavour)}
-            </Badge>
-          ))}
-        </Group>
+        <TasteBadges strength={item.strength} flavours={item.flavours} />
         {item.lacking.length > 0 && (
           <Badge color="orange" variant="light" size="md" style={{ alignSelf: 'flex-start', textTransform: 'none' }}>
             No {item.lacking.map(ingredientName).join(', no ')}

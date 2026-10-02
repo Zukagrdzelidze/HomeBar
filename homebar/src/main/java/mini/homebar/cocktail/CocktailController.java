@@ -64,14 +64,15 @@ class CocktailController {
     }
 
     record CocktailView(long id, String name, String description, boolean iceInCup, List<Cup> cups,
-                        List<IngredientView> ingredients, List<SpiritKind> categories,
-                        boolean makeable, List<MissingView> missing, String imageUrl) {
+                        List<IngredientView> ingredients, List<SpiritKind> categories, Strength strength,
+                        List<Flavour> flavours, boolean makeable, List<MissingView> missing, String imageUrl) {
 
         static CocktailView of(Cocktail cocktail, List<MissingIngredient> missing, boolean hasImage) {
             return new CocktailView(cocktail.getId(), cocktail.getName(), cocktail.getDescription(),
                     cocktail.isIceInCup(), List.copyOf(cocktail.getCups()),
                     cocktail.getIngredients().stream().map(IngredientView::of).toList(),
-                    cocktail.categories(), missing.isEmpty(), missing.stream().map(MissingView::of).toList(),
+                    cocktail.categories(), cocktail.getStrength(), List.copyOf(cocktail.getFlavours()),
+                    missing.isEmpty(), missing.stream().map(MissingView::of).toList(),
                     hasImage ? CocktailImage.urlFor(cocktail.getId()) : null);
         }
     }

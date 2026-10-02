@@ -10,6 +10,7 @@ import CocktailPicture from '../CocktailPicture'
 import { api, type Cocktail, type CocktailSearch, type MissingIngredient } from '../api'
 import { ingredientKey, ingredientLabel, label, SPIRIT_KINDS } from '../labels'
 import { PHOTO_TYPES, photoError } from '../photo'
+import TasteBadges from '../TasteBadges'
 
 type Availability = 'all' | 'makeable' | 'missing'
 type CountMode = 'any' | 'exactly' | 'atMost'
@@ -207,6 +208,7 @@ function CocktailCard({ cocktail }: { cocktail: Cocktail }) {
             </Badge>
           ))}
         </Group>
+        <TasteBadges strength={cocktail.strength} flavours={cocktail.flavours} />
         <List size="sm" spacing={2}>
           {cocktail.ingredients.map((ingredient, i) => {
             const isMissing = missing.has(ingredientKey(ingredient))

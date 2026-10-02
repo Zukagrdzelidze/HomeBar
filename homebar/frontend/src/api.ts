@@ -36,6 +36,8 @@ export type Cocktail = {
   cups: string[]
   ingredients: CocktailIngredient[]
   categories: string[]
+  strength: Strength
+  flavours: Flavour[]
   makeable: boolean
   missing: MissingIngredient[]
   imageUrl: string | null
