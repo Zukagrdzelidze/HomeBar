@@ -2,7 +2,7 @@ import {
   Alert, Box, Button, Center, Chip, Container, Group, Loader, MultiSelect, Paper, SegmentedControl, SimpleGrid, Stack, Text,
   TextInput, Title,
 } from '@mantine/core'
-import { useDebouncedValue } from '@mantine/hooks'
+import { useDebouncedValue, useReducedMotion } from '@mantine/hooks'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
 import { useLocation, useNavigate, useSearchParams } from 'react-router'
@@ -13,6 +13,7 @@ import { FLAVOURS, label, STRENGTH_COLOR, STRENGTHS } from '../labels'
 import { similarDrinks } from '../menu'
 import CocktailDetail from './CocktailDetail'
 import MenuCard from './MenuCard'
+import SurpriseReel from './SurpriseReel'
 
 // The picker holds Spirit Kinds and Mixers in one list, so each value says which it is.
 const KIND = 'kind:'
@@ -48,6 +49,8 @@ export default function MenuPage() {
   const [flavours, setFlavours] = useState<Flavour[]>([])
   const [view, setView] = useState<View>('all')
   const [surprised, setSurprised] = useState(false)
+  const [reel, setReel] = useState<{ pool: string[]; pick: MenuItem }>()
+  const reducedMotion = useReducedMotion()
   const favourites = useFavourites()
 
   const search = toSearch(debouncedQ, picked, strength, flavours)
@@ -78,7 +81,11 @@ export default function MenuPage() {
   const surprise = () => {
     const pool = shown.length > 1 ? shown.filter((item) => item.id !== openId) : shown
     const pick = pickRandom(pool)
-    if (pick) openDrink(pick.id, true)
+    if (!pick || reel) return
+    if (reducedMotion) return openDrink(pick.id, true)
+    // Warm the photo up while the reel spins, so the drink appears with it.
+    if (pick.imageUrl) new Image().src = pick.imageUrl
+    setReel({ pool: shown.map((item) => item.name), pick })
   }
   const clearFilters = () => {
     setQ('')
@@ -207,6 +214,15 @@ export default function MenuPage() {
           onOpen={(id) => openDrink(id)}
         />
       </Container>
+
+      {reel && (
+        <SurpriseReel
+          pool={reel.pool}
+          pick={reel.pick.name}
+          onPick={() => openDrink(reel.pick.id, true)}
+          onClose={() => setReel(undefined)}
+        />
+      )}
 
       <CocktailDetail
         item={openItem}
