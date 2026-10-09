@@ -3,8 +3,10 @@ import { useDisclosure } from '@mantine/hooks'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { NavLink as RouterNavLink, Outlet } from 'react-router'
 import { api } from '../api'
+import { useOrders } from '../orders'
 
 const PAGES = [
+  { to: '/admin/orders', label: 'Orders' },
   { to: '/admin/bottles', label: 'Bottles' },
   { to: '/admin/mixers', label: 'Mixers' },
   { to: '/admin/cocktails', label: 'Cocktails' },
@@ -13,6 +15,7 @@ const PAGES = [
 export default function AdminLayout({ name }: { name: string }) {
   const [opened, { toggle, close }] = useDisclosure()
   const queryClient = useQueryClient()
+  const waiting = useOrders().data?.length ?? 0
   const logout = useMutation({
     mutationFn: api.logout,
     onSuccess: () => {
@@ -51,7 +54,22 @@ export default function AdminLayout({ name }: { name: string }) {
       <AppShell.Navbar p="sm">
         {PAGES.map((page) => (
           <RouterNavLink key={page.to} to={page.to} onClick={close} style={{ textDecoration: 'none', color: 'inherit' }}>
-            {({ isActive }) => <NavLink component="span" label={page.label} active={isActive} fw={500} style={{ borderRadius: 'var(--mantine-radius-md)' }} />}
+            {({ isActive }) => (
+              <NavLink
+                component="span"
+                label={page.label}
+                active={isActive}
+                fw={500}
+                rightSection={
+                  page.to === '/admin/orders' && waiting > 0 ? (
+                    <Badge size="sm" circle>
+                      {waiting}
+                    </Badge>
+                  ) : undefined
+                }
+                style={{ borderRadius: 'var(--mantine-radius-md)' }}
+              />
+            )}
           </RouterNavLink>
         ))}
         <NavLink

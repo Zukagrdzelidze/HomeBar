@@ -8,6 +8,7 @@ import CocktailsPage from './pages/CocktailsPage'
 import LoginPage from './pages/LoginPage'
 import MenuPage from './pages/MenuPage'
 import MixersPage from './pages/MixersPage'
+import OrdersPage from './pages/OrdersPage'
 import RegisterPage from './pages/RegisterPage'
 
 export default function App() {
@@ -45,6 +46,7 @@ function AdminApp() {
   return (
     <Routes>
       <Route element={<AdminLayout name={me.data.name} />}>
+        <Route path="orders" element={<OrdersPage />} />
         <Route path="bottles" element={<BottlesPage />} />
         <Route path="mixers" element={<MixersPage />} />
         <Route path="cocktails" element={<CocktailsPage />} />

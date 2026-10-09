@@ -7,6 +7,7 @@ import { CloseIcon, DiceIcon, HeartIcon } from '../icons'
 import { label } from '../labels'
 import { ingredientName } from '../menu'
 import Taste from '../Taste'
+import OrderForm from './OrderForm'
 
 type Props = {
   /** The Cocktail to show; undefined closes the dialog. */
@@ -102,6 +103,8 @@ export default function CocktailDetail({ item, similar, favourite, onToggleFavou
                   </Text>
                 </div>
               )}
+
+              <OrderForm key={shown.id} item={shown} />
 
               <Group gap="sm">
                 <Button

@@ -7,11 +7,11 @@ A catalogue of what a home bar has on its shelves and which cocktails it can mak
 ### People
 
 **Admin**:
-A person who can log in to add and Revoke Bottles, mark Mixers in or out of stock, view Cocktails and set their photos. Only one Admin can self-register, and registration closes once that account exists.
+A person who can log in to add and Revoke Bottles, mark Mixers in or out of stock, view Cocktails and set their photos, and see Orders and mark them Made. Only one Admin can self-register, and registration closes once that account exists.
 _Avoid_: User, owner, bartender
 
 **Guest**:
-Anyone browsing the bar's menu without logging in. A Guest only ever sees Makeable Cocktails and never sees stock.
+Anyone browsing the bar's menu without logging in. A Guest only ever sees Makeable Cocktails and never sees stock. A Guest can place Orders.
 _Avoid_: Customer, user, visitor
 
 **Ingredient Pick**:
@@ -21,6 +21,16 @@ _Avoid_: Filter, pantry
 **Taste Pick**:
 The Strength and Flavours a Guest says they feel like. Unlike an Ingredient Pick it is strict: the menu shows only Makeable Cocktails with that Strength and every picked Flavour, never close matches.
 _Avoid_: Mood, preference
+
+### Orders
+
+**Order**:
+A Guest's request for one Makeable Cocktail, placed under the name the Guest gives. A name is required. Orders wait, oldest first, until the Admin marks them Made.
+_Avoid_: Ticket, request, tab
+
+**Made**:
+What the Admin marks an Order once the drink is poured. A Made Order is deleted; no history of Orders is kept.
+_Avoid_: Done, completed, served
 
 ### Stock
 

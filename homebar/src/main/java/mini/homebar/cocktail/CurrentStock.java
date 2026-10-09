@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 /** Reads the shelves into a BarStock; call inside a transaction. */
 @Component
-class CurrentStock {
+public class CurrentStock {
 
     private final BottleRepository bottles;
     private final MixerRepository mixers;
@@ -16,7 +16,7 @@ class CurrentStock {
         this.mixers = mixers;
     }
 
-    BarStock read() {
+    public BarStock read() {
         return BarStock.of(bottles.findAll(), mixers.findAll());
     }
 }

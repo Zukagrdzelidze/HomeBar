@@ -94,6 +94,9 @@ export type MenuSearch = {
 
 export type PickOptions = { spiritKinds: string[]; mixers: { id: number; name: string }[] }
 
+/** A Guest's request for one Cocktail under their name; it is gone once the Admin has made it. */
+export type Order = { id: number; guestName: string; cocktailId: number; cocktailName: string; placedAt: string }
+
 export class ApiError extends Error {
   readonly status: number
   readonly fieldErrors: Record<string, string>
@@ -178,6 +181,10 @@ export const api = {
     return request<Menu>('GET', `/api/menu${text ? `?${text}` : ''}`)
   },
   pickOptions: () => request<PickOptions>('GET', '/api/menu/ingredients'),
+
+  placeOrder: (cocktailId: number, guestName: string) => request<Order>('POST', '/api/orders', { cocktailId, guestName }),
+  orders: () => request<Order[]>('GET', '/api/orders'),
+  orderMade: (id: number) => request('DELETE', `/api/orders/${id}`),
 }
 
 function query(params: Record<string, string | number | boolean | undefined>): string {
