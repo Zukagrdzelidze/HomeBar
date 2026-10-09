@@ -105,10 +105,20 @@ type Props = {
   categories: string[]
   iceInCup: boolean
   height: number
+  /** Show the whole photo, however it is shaped, instead of cropping it to the height. */
+  full?: boolean
 }
 
 /** The Cocktail's photo, or, when it has none, a drawn glass tinted by its main spirit. */
-export default function CocktailPicture({ name, imageUrl, cup, categories, iceInCup, height }: Props) {
+export default function CocktailPicture({ name, imageUrl, cup, categories, iceInCup, height, full }: Props) {
+  if (imageUrl && full) {
+    return (
+      <div className="picture-full">
+        <div className="picture-full-backdrop" style={{ backgroundImage: `url(${imageUrl})` }} />
+        <img src={imageUrl} alt={name} />
+      </div>
+    )
+  }
   if (imageUrl) return <Image src={imageUrl} h={height} alt={name} loading="lazy" />
 
   const seed = hash(name)

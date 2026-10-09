@@ -43,6 +43,7 @@ export default function CocktailDetail({ item, similar, favourite, onToggleFavou
                 categories={shown.categories}
                 iceInCup={shown.iceInCup}
                 height={mobile ? 260 : 320}
+                full
               />
               <ActionIcon
                 onClick={onClose}

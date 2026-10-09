@@ -87,6 +87,31 @@
   }
 }
 
+/* A Cocktail's whole photo: as wide as its box, and any space a tall one leaves is filled by a blurred copy. */
+.picture-full {
+  position: relative;
+  overflow: hidden;
+  background: #141210;
+}
+
+.picture-full-backdrop {
+  position: absolute;
+  inset: -32px;
+  background-position: center;
+  background-size: cover;
+  filter: blur(28px) brightness(0.55);
+}
+
+.picture-full img {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: auto;
+  min-height: 200px;
+  max-height: min(80vh, 640px);
+  object-fit: contain;
+}
+
 .similar-drink {
   border-radius: var(--mantine-radius-md);
   padding: 6px;
